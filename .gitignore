@@ -1,0 +1,27 @@
+# Ignore compiled Python files
+*.pyc
+
+# Ignore the virtual environment
+venv/
+
+# Ignore the originaaal sqlitedatabase
+db.sqlite3
+
+# Ignore the static files
+staticfiles/
+
+# Ignore the media files
+media/
+
+# Ignore the PostgreSQL data directory
+pgdata/
+
+# Ignore any logs generated
+logs/
+
+# Ignore any temporary files
+*.tmp
+
+# Ignore any IDE-specific files
+.idea/
+.vscode/
