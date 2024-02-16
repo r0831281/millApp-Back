@@ -3,8 +3,9 @@
 
 # Ignore the virtual environment
 venv/
+.venv/
 
-# Ignore the originaaal sqlitedatabase
+# Ignore the original sqlitedatabase
 db.sqlite3
 
 # Ignore the static files
