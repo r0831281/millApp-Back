@@ -12,7 +12,7 @@
 
 ## run:
 
-Docker compose up
+`Docker compose up`
 
 ## for dev:
 To get interactive (stable) tty shell:
