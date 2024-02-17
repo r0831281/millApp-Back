@@ -1,4 +1,4 @@
-#Inventory App APi
+# Inventory App APi
 - docker
 - django-ninja REST Framework
 - Postgresql
