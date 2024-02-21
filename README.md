@@ -21,4 +21,4 @@ To get interactive (stable) tty shell:
 - run `chmod +x level.sh`
 - run `./level.sh`
 
-
+-install dependencies in venv
