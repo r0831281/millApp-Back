@@ -8,3 +8,4 @@ typing_extensions==4.9.0
 tzdata==2024.1
 psycopg2-binary
 django-ninja
+django-ninja-extra
