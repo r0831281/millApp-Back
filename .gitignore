@@ -2,8 +2,8 @@
 *.pyc
 
 # Ignore the virtual environment
-venv/
-.venv/
+virt/
+/virt/
 
 # Ignore the original sqlitedatabase
 db.sqlite3
