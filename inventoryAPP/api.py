@@ -3,7 +3,6 @@ from ninja import Router, NinjaAPI
 from inventoryAPP.models import Item, ItemTypes, Bestelling, Location, Dienst, User, Role
 from inventoryAPP.schemas import ItemIn, UserIn, ItemOut
 from typing import List
-from ninja.security import HttpBearer
 import inventoryAPP.auth
 from django.contrib.auth.hashers import make_password
 

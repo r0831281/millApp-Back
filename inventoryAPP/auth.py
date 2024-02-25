@@ -1,13 +1,10 @@
-from django.http import JsonResponse
-from ninja import Router, NinjaAPI, Form 
-from inventoryAPP.models import Item, ItemTypes, Bestelling, Location, Dienst, User, Role
-from inventoryAPP.schemas import ItemIn, UserIn, ItemOut
+from ninja import Router, Form 
+from inventoryAPP.models import User, Role
 from typing import List
 from ninja.security import HttpBearer
 from inventoryAPP import settings
 from ninja.errors import ValidationError
 import datetime
-from django.utils import timezone
 from django.contrib.auth.hashers import check_password
 from jose import jwt
 
