@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from ninja import Router, NinjaAPI
-from inventoryAPP.models import Item
+from inventoryAPP.models import Item, ItemTypes, Bestelling, Location, Dienst, User, Role
 from inventoryAPP.schemas import ItemIn
 
 router = Router()
@@ -27,6 +27,12 @@ def get_item(request, item_id: int):
 def create_item(request, item_in: ItemIn):
     item = Item.objects.create(**item_in.dict())
     return JsonResponse({"id": item.id, "name": item.name})
+
+@router.get("/users")
+def list_users(request):
+    users = User.objects.all()
+    return JsonResponse([{"id": user.id, "name": user.name} for user in users], safe=False)
+
 
 api = NinjaAPI()
 
