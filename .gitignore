@@ -28,3 +28,6 @@ logs/
 # Ignore any IDE-specific files
 .idea/
 .vscode/
+
+# ignore envsettings file
+envsettings.py
