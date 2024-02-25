@@ -32,14 +32,16 @@ def get_item(request, item_id: int):
 
 @router.post("/items")
 def create_item(request, item_in: ItemIn):
-    item = Item.objects.create(**item_in.dict())
-    return JsonResponse({"id": item.id, "name": item.name})
+    if item_in.ItemTypes_id:
+        item = Item.objects.create(**item_in.dict())
+        return JsonResponse({"id": item.id, "name": item.name})
+    else:
+        return JsonResponse({"error": "Item type is required"}, status=400)
 
 @router.get("/users")
 def list_users(request):
     users = User.objects.all()
     return JsonResponse([{"id": user.id, "name": user.name, "pass" : user.password, "role" : user.UserRole.name} for user in users], safe=False)
-
 
 
 @router.post("/users")

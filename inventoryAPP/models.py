@@ -10,7 +10,7 @@ class Item(models.Model):
     date_outservice = models.DateField(blank=True, null=True)
     date_scanned = models.DateField(blank=True, null=True)
     
-    ItemTypes = models.ForeignKey('ItemTypes', on_delete=models.SET_NULL, null=True)
+    ItemTypes = models.ForeignKey('ItemTypes', on_delete=models.PROTECT, null=False, default=0)
     ItemLocation = models.ForeignKey('Location', on_delete=models.PROTECT, null=True)
     ItemBestelling = models.ForeignKey('Bestelling', on_delete=models.PROTECT, null=True)
     def __str__(self):
