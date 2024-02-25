@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 #item model id, name, description, code, date inservice, date outservice, date scanned
 class Item(models.Model):
@@ -64,10 +63,17 @@ class User(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    
+
     UserRole = models.ForeignKey('Role', on_delete=models.PROTECT, null=True, default=0)
     def __str__(self):
         return self.name
+
+    def has_perm(self, perm, obj=None):
+        return self.UserRole.accessLevel >= perm
+
+    def setPassword(self, password):
+        self.password = password
+        self.save()
     
 class Role(models.Model):
     id = models.AutoField(primary_key=True)
