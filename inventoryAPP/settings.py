@@ -1,2 +1,0 @@
-JWT_SIGNING_KEY = 'secretstring'
-JWT_ACCESS_EXPIRY = 60

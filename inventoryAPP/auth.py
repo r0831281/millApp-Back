@@ -2,7 +2,7 @@ from ninja import Router, Form
 from inventoryAPP.models import User, Role
 from typing import List
 from ninja.security import HttpBearer
-from inventoryAPP import settings
+from inventoryAPP import envsettings
 from ninja.errors import ValidationError
 import datetime
 from django.contrib.auth.hashers import check_password
@@ -11,8 +11,8 @@ from jose import jwt
 router = Router()
 
 def create_token(username):
-    jwt_signing_key = getattr(settings, "JWT_SIGNING_KEY", None)
-    jwt_access_expire = getattr(settings, "JWT_ACCESS_EXPIRY", 60)
+    jwt_signing_key = getattr(envsettings, "JWT_SIGNING_KEY", None)
+    jwt_access_expire = getattr(envsettings, "JWT_ACCESS_EXPIRY", 60)
     payload = {"username": username}
     access_expire = datetime.datetime.now() + datetime.timedelta(minutes=jwt_access_expire)
     payload.update({"exp": access_expire})
@@ -21,7 +21,7 @@ def create_token(username):
 
 class AuthBearer(HttpBearer):
     def authenticate(self, request, token):
-        jwt_signing_key = getattr(settings, "JWT_SIGNING_KEY", None)
+        jwt_signing_key = getattr(envsettings, "JWT_SIGNING_KEY", None)
         try:
             payload = jwt.decode(token, key=jwt_signing_key, algorithms=["HS256"])
         except Exception as e:
