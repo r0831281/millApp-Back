@@ -11,7 +11,7 @@ from jose import jwt
 router = Router()
 
 def create_token(username):
-    jwt_signing_key = getattr(envsettings, "JWT_SIGNING_KEY", None)
+    jwt_signing_key = getattr(envsettings, "JWT_SIGNING_KEY", "not_a_secret_key")
     jwt_access_expire = getattr(envsettings, "JWT_ACCESS_EXPIRY", 60)
     payload = {"username": username}
     access_expire = datetime.datetime.now() + datetime.timedelta(minutes=jwt_access_expire)
