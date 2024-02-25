@@ -4,6 +4,8 @@
 # Ignore the virtual environment
 virt/
 /virt/
+.venv/
+/.venv/
 
 # Ignore the original sqlitedatabase
 db.sqlite3
