@@ -44,8 +44,9 @@ def list_users(request):
 
 @router.post("/users")
 def create_user(request, user_in: UserIn):
-    if request.auth.get("user").UserRole.name != "Admin":
-        raise Exception("You are not authorized to create a user")
+    if request.auth.get("user").UserRole.accessLevel < 2:
+        user = User.objects.get(id=request.auth.get("user").id)
+        raise Exception("You, are not authorized to create a user")
     else:
         user_in.password = make_password(user_in.password)
         user = User.objects.create(**user_in.dict())
