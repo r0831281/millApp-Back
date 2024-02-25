@@ -3,7 +3,9 @@ from ninja import Router, NinjaAPI
 from inventoryAPP.models import Item, ItemTypes, Bestelling, Location, Dienst, User, Role
 from inventoryAPP.schemas import ItemIn, UserIn, ItemOut
 from typing import List
-
+from ninja.security import HttpBearer
+import inventoryAPP.auth
+from django.contrib.auth.hashers import make_password
 
 router = Router()
 
@@ -37,14 +39,16 @@ def create_item(request, item_in: ItemIn):
 @router.get("/users")
 def list_users(request):
     users = User.objects.all()
-    return JsonResponse([{"id": user.id, "name": user.name} for user in users], safe=False)
+    return JsonResponse([{"id": user.id, "name": user.name, "pass" : user.password} for user in users], safe=False)
 @router.post("/users")
 def create_user(request, user_in: UserIn):
+    user_in.password = make_password(user_in.password)
     user = User.objects.create(**user_in.dict())
     return JsonResponse({"id": user.id, "name": user.name})
 
-api = NinjaAPI()
+from inventoryAPP.auth import AuthBearer
 
-
+api = NinjaAPI(auth=AuthBearer())
 
 api.add_router("/inventory", router)
+api.add_router("/auth", inventoryAPP.auth.router)

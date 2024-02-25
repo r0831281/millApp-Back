@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ninja_extra',
     'inventoryAPP',
+    'ninja',
     ]
 
 MIDDLEWARE = [
