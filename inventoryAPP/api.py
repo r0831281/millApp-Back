@@ -5,7 +5,7 @@ from inventoryAPP.schemas import ItemIn, UserIn, ItemOut
 from typing import List
 import inventoryAPP.auth
 from django.contrib.auth.hashers import make_password
-
+from inventoryAPP.auth import AuthBearer
 router = Router()
 
 @router.get("/hello")
@@ -38,14 +38,19 @@ def create_item(request, item_in: ItemIn):
 @router.get("/users")
 def list_users(request):
     users = User.objects.all()
-    return JsonResponse([{"id": user.id, "name": user.name, "pass" : user.password} for user in users], safe=False)
+    return JsonResponse([{"id": user.id, "name": user.name, "pass" : user.password, "role" : user.UserRole.name} for user in users], safe=False)
+
+
+
 @router.post("/users")
 def create_user(request, user_in: UserIn):
-    user_in.password = make_password(user_in.password)
-    user = User.objects.create(**user_in.dict())
-    return JsonResponse({"id": user.id, "name": user.name})
+    if request.auth.get("user").UserRole.name != "Admin":
+        raise Exception("You are not authorized to create a user")
+    else:
+        user_in.password = make_password(user_in.password)
+        user = User.objects.create(**user_in.dict())
+        return JsonResponse({"id": user.id, "name": user.name})
 
-from inventoryAPP.auth import AuthBearer
 
 api = NinjaAPI(auth=AuthBearer())
 

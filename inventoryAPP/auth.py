@@ -5,10 +5,11 @@ from ninja.security import HttpBearer
 from inventoryAPP import envsettings
 from ninja.errors import ValidationError
 import datetime
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 from jose import jwt
 
 router = Router()
+
 
 def create_token(username):
     jwt_signing_key = getattr(envsettings, "JWT_SIGNING_KEY", "not_a_secret_key")
@@ -27,7 +28,19 @@ class AuthBearer(HttpBearer):
         except Exception as e:
             return {"error": str(e)}
         username: str = payload.get("username", None)
-        return username
+        user_model = User.objects.filter(name=username).first()
+
+        if not user_model:
+            return None
+
+        # Include user_model in the return for additional information if needed
+        return {"sub": username, "user": user_model}
+    
+    def has_permission(self, request, view) -> bool:
+        user_model = self.authenticate(request, request.headers.get("Authorization")).get("user")
+        if user_model and user_model.has_perm(view.get_required_permission()):
+            return True
+        return False
 
 @router.post("/sign_in", auth=None)
 def sign_in(request, username: str = Form(...), password: str = Form(...)):
@@ -38,4 +51,14 @@ def sign_in(request, username: str = Form(...), password: str = Form(...)):
         raise ValidationError([{"error": "Wrong password"}])
 
     token = create_token(user_model.name)
+    return {"token": token}
+
+@router.post("/sign_up", auth=None)
+def sign_up(request, username: str = Form(...), password: str = Form(...)):
+    user_model = User.objects.filter(name=username).first()
+    if user_model:
+        raise ValidationError([{"error": "User already exists"}])
+
+    user = User.objects.create(name=username, password=make_password(password), UserRole=Role.objects.get(id=1))
+    token = create_token(user.name)
     return {"token": token}
