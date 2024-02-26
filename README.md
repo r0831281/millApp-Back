@@ -15,6 +15,17 @@
 `Docker compose up`
 
 ## for dev:
+
+### make venv:
+
+- `python3 -m venv /path/to/new/virtual/environment` 
+
+- `.\venv\Scripts\Activate` 
+
+### install requirements
+
+- `pip install -r requirements.txt`
+
 To get interactive (stable) tty shell:
 
 - attach docker shell to web container
