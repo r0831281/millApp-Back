@@ -32,7 +32,6 @@ class AuthBearer(HttpBearer):
 
         if not user_model:
             return None
-
         # Include user_model in the return for additional information if needed
         return {"sub": username, "user": user_model}
     
@@ -45,6 +44,8 @@ class AuthBearer(HttpBearer):
 @router.post("/sign_in", auth=None)
 def sign_in(request, username: str = Form(...), password: str = Form(...)):
     user_model = User.objects.filter(name=username).first()
+    if not user_model:
+        raise ValidationError([{"error": "User does not exist"}])
 
     passwords_match = check_password(password, user_model.password)
     if not passwords_match:

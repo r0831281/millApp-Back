@@ -1,3 +1,4 @@
+from urllib.error import HTTPError
 from django.http import JsonResponse
 from ninja import Router, NinjaAPI
 from inventoryAPP.models import Item, ItemTypes, Bestelling, Location, Dienst, User, Role
@@ -6,13 +7,18 @@ from typing import List
 import inventoryAPP.auth
 from django.contrib.auth.hashers import make_password
 from inventoryAPP.auth import AuthBearer
+from inventoryAPP.wrappers import admin_required, superadmin_required, scanner_required
+
+
 router = Router()
 
 @router.get("/hello")
 def hello_world(request):
     return JsonResponse({"message": "Hello, world!"})
 
+
 @router.get("/hello/{name}")
+@superadmin_required
 def hello_name(request, name: str):
     return JsonResponse({"message": f"Hello, {name}!"})
 
@@ -37,11 +43,15 @@ def create_item(request, item_in: ItemIn):
         return JsonResponse({"id": item.id, "name": item.name})
     else:
         return JsonResponse({"error": "Item type is required"}, status=400)
+    
 
 @router.get("/users")
+@admin_required
 def list_users(request):
     users = User.objects.all()
-    return JsonResponse([{"id": user.id, "name": user.name, "pass" : user.password, "role" : user.UserRole.name} for user in users], safe=False)
+    requester = request.auth.get("user")
+    response = [{"id": user.id, "name": user.name, "role" : user.UserRole.name} for user in users] + [{"requester": requester.name, "role" : requester.UserRole.name}]
+    return JsonResponse(response, safe=False)
 
 
 @router.post("/users")
