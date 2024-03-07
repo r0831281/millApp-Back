@@ -45,6 +45,33 @@ def create_item(request, item_in: ItemIn):
         return JsonResponse({"error": "Item type is required"}, status=400)
     
 
+
+#user crud routes
+
+@router.get("/users/{user_id}")
+@admin_required
+def get_user(request, user_id: int):
+    user = User.objects.get(id=user_id)
+    response = {"id": user.id, "name": user.name, "role" : user.UserRole.name}
+    return JsonResponse(response)
+
+@router.put("/users/{user_id}")
+@admin_required
+def update_user(request, user_id: int, user_in: UserIn):
+    user = User.objects.get(id=user_id)
+    user.name = user_in.name
+    user.password = make_password(user_in.password)
+    user.UserRole = Role.objects.get(id=user_in.UserRole_id)
+    user.save()
+    return JsonResponse({"id": user.id, "name": user.name})
+
+@router.delete("/users/{user_id}")
+@admin_required
+def delete_user(request, user_id: int):
+    user = User.objects.get(id=user_id)
+    user.delete()
+    return JsonResponse({"id": user_id, "status": "deleted"})
+
 @router.get("/users")
 @admin_required
 def list_users(request):
