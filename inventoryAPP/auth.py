@@ -59,7 +59,9 @@ def sign_up(request, username: str = Form(...), password: str = Form(...)):
     user_model = User.objects.filter(name=username).first()
     if user_model:
         raise ValidationError([{"error": "User already exists"}])
-
-    user = User.objects.create(name=username, password=make_password(password), UserRole=Role.objects.get(id=1))
-    token = create_token(user.name)
+    else:
+        role = Role.objects.filter(name="scanner").first()
+        user = User(name=username, password=make_password(password), UserRole=role)
+        user.save()
+        token = create_token(user.name)
     return {"token": token}

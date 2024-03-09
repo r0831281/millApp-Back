@@ -32,6 +32,7 @@ class Bestelling(models.Model):
     unitPrice = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
     supplier = models.CharField(max_length=100)
+    date = models.DateField()
     BestellingLocation = models.ForeignKey('Location', on_delete=models.PROTECT, null=True)
     def __str__(self):
         return self.name
@@ -56,12 +57,18 @@ class Dienst(models.Model):
     def __str__(self):
         return self.name
 
-
+class Role(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    accessLevel = models.IntegerField(default=0)
+    def __str__(self):
+        return self.name
+    
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    userDienst = models.ForeignKey('Dienst', on_delete=models.PROTECT, null=True)
+    userDienst = models.ForeignKey('Dienst', on_delete=models.PROTECT , null=True, related_name='userDienst')
     UserRole = models.ForeignKey('Role', on_delete=models.PROTECT, null=True, default=0)
     def __str__(self):
         return self.name
@@ -73,12 +80,7 @@ class User(models.Model):
         self.password = password
         self.save()
     
-class Role(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    accessLevel = models.IntegerField(default=0)
-    def __str__(self):
-        return self.name
+
     
 class userItem(models.Model):
     id = models.AutoField(primary_key=True)

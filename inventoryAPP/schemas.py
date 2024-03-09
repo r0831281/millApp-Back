@@ -41,17 +41,18 @@ class ItemOut(Schema):
 class roleIn(Schema):
     name: str
     accessLevel: int
+    
 
 class roleOut(Schema):
     id: int
     name: str
-
-
+    accessLevel: int
 
 class UserIn(Schema):
     name: str
     password: str
     UserRole_id: int
+
     
 class UserOut(Schema):
     id: int

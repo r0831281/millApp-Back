@@ -23,7 +23,7 @@ def hello_name(request, name: str):
     return JsonResponse({"message": f"Hello, {name}!"})
 
 
-@router.get("/items")
+@router.get("/items", auth=None)
 def list_items(request):
     items = Item.objects.all()
     return JsonResponse([{"id": item.id, "name": item.name} for item in items], safe=False)
@@ -83,13 +83,9 @@ def list_users(request):
 
 @router.post("/users")
 def create_user(request, user_in: UserIn):
-    if request.auth.get("user").UserRole.accessLevel <= user_in.UserRole_id.accessLevel:
-        user = User.objects.get(id=request.auth.get("user").id)
-        raise Exception("You, are not authorized to create a user")
-    else:
-        user_in.password = make_password(user_in.password)
-        user = User.objects.create(**user_in.dict())
-        return JsonResponse({"id": user.id, "name": user.name})
+    user_in.password = make_password(user_in.password)
+    user = User.objects.create(**user_in.dict())
+    return JsonResponse({"id": user.id, "name": user.name})
 
 
 api = NinjaAPI(auth=AuthBearer())
