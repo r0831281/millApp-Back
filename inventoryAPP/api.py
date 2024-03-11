@@ -66,7 +66,7 @@ def create_user(request, user_in: UserIn):
     return JsonResponse({"id": user.id, "name": user.name})
 
 
-api = NinjaAPI(auth=AuthBearer(), csrf=True)
+api = NinjaAPI(auth=AuthBearer(), csrf=False)
 
 api.add_router("/inventory", router)
 api.add_router("/auth", inventoryAPP.auth.router)

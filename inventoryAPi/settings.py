@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['http://localhost:4200', 'localhost']
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ['https://localhost:4200', 'http://localhost:4200', 'http://localhost', 'http://127.0.0.1']
+
+# CORS_ALLOW_ALL_ORIGINS = True  -> de-comment to nuke cors BS
 
 # Application definition
 
