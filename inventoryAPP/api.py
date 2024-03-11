@@ -8,6 +8,7 @@ import inventoryAPP.auth
 from django.contrib.auth.hashers import make_password
 from inventoryAPP.auth import AuthBearer
 from inventoryAPP.wrappers import admin_required, superadmin_required, scanner_required
+import inventoryAPP.itemsApi
 
 
 router = Router()
@@ -23,26 +24,26 @@ def hello_name(request, name: str):
     return JsonResponse({"message": f"Hello, {name}!"})
 
 
-@router.get("/items", auth=None)
-def list_items(request):
-    items = Item.objects.all()
-    return JsonResponse([{"id": item.id, "name": item.name} for item in items], safe=False)
+# @router.get("/items", auth=None)
+# def list_items(request):
+#     items = Item.objects.all()
+#     return JsonResponse([{"id": item.id, "name": item.name} for item in items], safe=False)
 
-@router.get("/items/{item_id}")
-def get_item(request, item_id: int):
-    item = Item.objects.get(id=item_id)
-    response = {"id": item.id, "name": item.name, "description": item.description, "code": item.code, "date_inservice": item.date_inservice, "date_outservice": item.date_outservice, "date_scanned": item.date_scanned}
-    if item.ItemTypes:
-        response["type"] = item.ItemTypes.name
-    return JsonResponse(response)
+# @router.get("/items/{item_id}")
+# def get_item(request, item_id: int):
+#     item = Item.objects.get(id=item_id)
+#     response = {"id": item.id, "name": item.name, "description": item.description, "code": item.code, "date_inservice": item.date_inservice, "date_outservice": item.date_outservice, "date_scanned": item.date_scanned}
+#     if item.ItemTypes:
+#         response["type"] = item.ItemTypes.name
+#     return JsonResponse(response)
 
-@router.post("/items")
-def create_item(request, item_in: ItemIn):
-    if item_in.ItemTypes_id:
-        item = Item.objects.create(**item_in.dict())
-        return JsonResponse({"id": item.id, "name": item.name})
-    else:
-        return JsonResponse({"error": "Item type is required"}, status=400)
+# @router.post("/items")
+# def create_item(request, item_in: ItemIn):
+#     if item_in.ItemTypes_id:
+#         item = Item.objects.create(**item_in.dict())
+#         return JsonResponse({"id": item.id, "name": item.name})
+#     else:
+#         return JsonResponse({"error": "Item type is required"}, status=400)
     
 
 
@@ -66,7 +67,7 @@ def update_user(request, user_id: int, user_in: UserIn):
     return JsonResponse({"id": user.id, "name": user.name})
 
 @router.delete("/users/{user_id}")
-@admin_required
+@superadmin_required
 def delete_user(request, user_id: int):
     user = User.objects.get(id=user_id)
     user.delete()
@@ -92,3 +93,5 @@ api = NinjaAPI(auth=AuthBearer())
 
 api.add_router("/inventory", router)
 api.add_router("/auth", inventoryAPP.auth.router)
+api.add_router("/items", inventoryAPP.itemsApi.router)
+

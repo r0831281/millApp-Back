@@ -35,9 +35,9 @@ class AuthBearer(HttpBearer):
         # Include user_model in the return for additional information if needed
         return {"sub": username, "user": user_model}
     
-    def has_permission(self, request, view) -> bool:
+    def has_permission(self, request, perm) -> bool:
         user_model = self.authenticate(request, request.headers.get("Authorization")).get("user")
-        if user_model and user_model.has_perm(view.get_required_permission()):
+        if user_model and user_model.userRole.accessLevel >= int(perm.strip) and user_model.has_perm(int(perm.strip)):
             return True
         return False
 
