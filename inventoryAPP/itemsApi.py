@@ -7,7 +7,7 @@ from inventoryAPP.wrappers import admin_required, scanner_required, superadmin_r
 
 router = Router()
 
-@router.get("/list")
+@router.get("/list", auth=None)
 def list_items(request):
     items = Item.objects.all()
     return JsonResponse([{"id": item.id, "name": item.name} for item in items], safe=False)

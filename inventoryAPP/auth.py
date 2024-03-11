@@ -25,15 +25,16 @@ class AuthBearer(HttpBearer):
         jwt_signing_key = getattr(envsettings, "JWT_SIGNING_KEY", None)
         try:
             payload = jwt.decode(token, key=jwt_signing_key, algorithms=["HS256"])
+            username: str = payload.get("username", None)
+            user_model = User.objects.filter(name=username).first()
+
+            if not user_model:
+                return None
+            # Include user_model in the return for additional information if needed
+            return {"sub": username, "user": user_model}
         except Exception as e:
             return {"error": str(e)}
-        username: str = payload.get("username", None)
-        user_model = User.objects.filter(name=username).first()
 
-        if not user_model:
-            return None
-        # Include user_model in the return for additional information if needed
-        return {"sub": username, "user": user_model}
     
     def has_permission(self, request, perm) -> bool:
         user_model = self.authenticate(request, request.headers.get("Authorization")).get("user")

@@ -25,8 +25,9 @@ SECRET_KEY = 'django-insecure-z3sh)e6vp-fgx)j%qkot!oi9zfxw=o39#im9mn0ok2hu^2af^n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://localhost:4200', 'localhost']
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -40,11 +41,13 @@ INSTALLED_APPS = [
     'ninja_extra',
     'inventoryAPP',
     'ninja',
+    'corsheaders',
     ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
