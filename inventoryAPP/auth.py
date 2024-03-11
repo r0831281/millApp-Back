@@ -52,7 +52,7 @@ def sign_in(request, username: str = Form(...), password: str = Form(...)):
         raise ValidationError([{"error": "Wrong password"}])
 
     token = create_token(user_model.name)
-    return {"token": token}
+    return {"token": token, "user": user_model.name, "role": user_model.UserRole.name, "accessLevel": user_model.UserRole.accessLevel}
 
 @router.post("/sign_up", auth=None)
 def sign_up(request, username: str = Form(...), password: str = Form(...)):

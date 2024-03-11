@@ -24,29 +24,6 @@ def hello_name(request, name: str):
     return JsonResponse({"message": f"Hello, {name}!"})
 
 
-# @router.get("/items", auth=None)
-# def list_items(request):
-#     items = Item.objects.all()
-#     return JsonResponse([{"id": item.id, "name": item.name} for item in items], safe=False)
-
-# @router.get("/items/{item_id}")
-# def get_item(request, item_id: int):
-#     item = Item.objects.get(id=item_id)
-#     response = {"id": item.id, "name": item.name, "description": item.description, "code": item.code, "date_inservice": item.date_inservice, "date_outservice": item.date_outservice, "date_scanned": item.date_scanned}
-#     if item.ItemTypes:
-#         response["type"] = item.ItemTypes.name
-#     return JsonResponse(response)
-
-# @router.post("/items")
-# def create_item(request, item_in: ItemIn):
-#     if item_in.ItemTypes_id:
-#         item = Item.objects.create(**item_in.dict())
-#         return JsonResponse({"id": item.id, "name": item.name})
-#     else:
-#         return JsonResponse({"error": "Item type is required"}, status=400)
-    
-
-
 #user crud routes
 
 @router.get("/users/{user_id}")
