@@ -9,7 +9,7 @@ class Item(models.Model):
     date_inservice = models.DateField(blank=True, null=True)
     date_outservice = models.DateField(blank=True, null=True)
     date_scanned = models.DateField(blank=True, null=True)
-    
+    ipAdress = models.CharField(max_length=100, blank=True, null=True)
     ItemTypes = models.ForeignKey('ItemTypes', on_delete=models.PROTECT, null=False, default=0)
     ItemLocation = models.ForeignKey('Location', on_delete=models.PROTECT, null=True)
     ItemBestelling = models.ForeignKey('Bestelling', on_delete=models.PROTECT, null=True)
@@ -23,6 +23,8 @@ class ItemTypes(models.Model):
     code = models.CharField(max_length=100)
     subcategory = models.CharField(max_length=100, blank=True, null=True)
     quantity = models.IntegerField(blank=True, null=True)
+    brand = models.CharField(max_length=100, blank=True, null=True)
+    model = models.CharField(max_length=100, blank=True, null=True)
     isbulk = models.BooleanField(default=False)
     def __str__(self):
         return self.name

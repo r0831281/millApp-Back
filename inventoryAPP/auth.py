@@ -34,7 +34,6 @@ class AuthBearer(HttpBearer):
             return {"sub": username, "user": user_model}
         except Exception as e:
             return {"error": str(e)}
-
     
     def has_permission(self, request, perm) -> bool:
         user_model = self.authenticate(request, request.headers.get("Authorization")).get("user")
@@ -53,7 +52,7 @@ def sign_in(request, username: str = Form(...), password: str = Form(...)):
         raise ValidationError([{"error": "Wrong password"}])
 
     token = create_token(user_model.name)
-    return {"token": token, "user": user_model.name, "role": user_model.UserRole.name, "accessLevel": str(user_model.UserRole.accessLevel)}
+    return {"token": token, "user": user_model.name, "role": user_model.UserRole.name, "accessLevel": user_model.UserRole.accessLevel}
 
 @router.post("/sign_up", auth=None)
 def sign_up(request, username: str = Form(...), password: str = Form(...)):
