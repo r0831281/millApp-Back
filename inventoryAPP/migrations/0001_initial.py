@@ -32,6 +32,8 @@ class Migration(migrations.Migration):
                 ('subcategory', models.CharField(blank=True, max_length=100, null=True)),
                 ('quantity', models.IntegerField(blank=True, null=True)),
                 ('isbulk', models.BooleanField(default=False)),
+                ('brand', models.CharField(blank=True, max_length=100, null=True)),
+                ('model', models.CharField(blank=True, max_length=100, null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -69,6 +71,7 @@ class Migration(migrations.Migration):
                 ('ItemBestelling', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='inventoryAPP.bestelling')),
                 ('ItemTypes', models.ForeignKey(default=0, on_delete=django.db.models.deletion.PROTECT, to='inventoryAPP.itemtypes')),
                 ('ItemLocation', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='inventoryAPP.location')),
+                ('ipAdress', models.CharField(blank=True, max_length=100, null=True)),
             ],
         ),
         migrations.CreateModel(

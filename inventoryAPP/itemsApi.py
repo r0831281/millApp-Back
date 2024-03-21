@@ -7,7 +7,7 @@ from inventoryAPP.wrappers import admin_required, scanner_required, superadmin_r
 
 router = Router()
 
-@router.get("/list", auth=None)
+@router.get("/list")
 def list_items(request):
     items = Item.objects.all()
     return JsonResponse([{"id": item.id, "name": item.name} for item in items], safe=False)
@@ -30,7 +30,6 @@ def create_item(request, item_in: ItemIn):
     else:
         return JsonResponse({"error": "Item type is required"}, status=400)
     
-
 @router.post("/scan/{item_id}")
 @scanner_required
 def scan_item(request, item_id: int):
@@ -53,7 +52,7 @@ def update_item(request, item_id: int, item_in: ItemIn):
     return JsonResponse({"id": item.id, "name": item.name})
 
 @router.delete("/{item_id}")
-@superadmin_required
+@admin_required
 def delete_item(request, item_id: int):
     item = Item.objects.get(id=item_id)
     item.delete()
