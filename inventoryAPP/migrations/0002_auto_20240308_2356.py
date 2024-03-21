@@ -10,6 +10,7 @@ def create_roles(apps, schema_editor):
     Role.objects.create(name="superadmin", accessLevel=3)
     Role.objects.create(name="admin", accessLevel=2)
     Role.objects.create(name="scanner", accessLevel=1)
+    Role.objects.create(name="user", accessLevel=0)
     
 def create_dienst(apps, schema_editor):
     Dienst.objects.create(name="ICT")
@@ -77,11 +78,16 @@ def create_items(apps, schema_editor):
     Item.objects.create(name="Laptop 4", description="Laptop 4", code="LPTP4", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=1, ItemLocation_id=2, ItemBestelling_id=4)
     Item.objects.create(name="Laptop 5", description="Laptop 5", code="LPTP5", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=1, ItemLocation_id=2, ItemBestelling_id=5)
     Item.objects.create(name="Laptop 6", description="Laptop 6", code="LPTP6", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=1, ItemLocation_id=2, ItemBestelling_id=6)
+    # 100 more items testtt
+    for i in range(7, 107):
+        Item.objects.create(name=f"Laptop {i}", description=f"Laptop {i}", code=f"LPTP{i}", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=1, ItemLocation_id=2, ItemBestelling_id=1, isbulk=True)
     
 def create_users(apps, schema_editor):
     User.objects.create(name="superadmin", password=make_password("superadmin"), UserRole_id=1)
     User.objects.create(name="admin", password=make_password("admin"), UserRole_id=2)
     User.objects.create(name="scanner", password=make_password("scanner"), UserRole_id=3)
+    User.objects.create(name="user", password=make_password("user"), UserRole_id=4)
+    User.objects.create(name="user1", password=make_password("user1"), UserRole_id=4)
 
 
 
