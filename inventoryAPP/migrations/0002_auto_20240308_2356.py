@@ -60,7 +60,7 @@ def create_item_types(apps, schema_editor):
 
 
 def create_bestelling(apps, schema_editor):
-    Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 1", date="2024-03-08", BestellingLocation_id=2)
+    Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 1", date="2024-03-08", BestellingLocation_id=1)
     Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 2", date="2024-03-08", BestellingLocation_id=2)
     Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 3", date="2024-03-08", BestellingLocation_id=2)
     Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 4", date="2024-03-08", BestellingLocation_id=2)
@@ -69,7 +69,7 @@ def create_bestelling(apps, schema_editor):
     Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 7", date="2024-03-08", BestellingLocation_id=2)
     Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 8", date="2024-03-08", BestellingLocation_id=2)
     Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 9", date="2024-03-08", BestellingLocation_id=2)
-    Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 10", date="2024-03-08", BestellingLocation_id=2)
+    Bestelling.objects.create(unitPrice=1000.00, quantity=10, supplier="Supplier 10", date="2024-03-08", BestellingLocation_id=3)
     
 def create_items(apps, schema_editor):
     Item.objects.create(name="Laptop 1", description="Laptop 1", code="LPTP1", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=1, ItemLocation_id=2, ItemBestelling_id=1)
@@ -80,7 +80,7 @@ def create_items(apps, schema_editor):
     Item.objects.create(name="Laptop 6", description="Laptop 6", code="LPTP6", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=1, ItemLocation_id=2, ItemBestelling_id=6)
     # 100 more items testtt
     for i in range(7, 107):
-        Item.objects.create(name=f"Laptop {i}", description=f"Laptop {i}", code=f"LPTP{i}", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=1, ItemLocation_id=2, ItemBestelling_id=1, isbulk=True)
+        Item.objects.create(name=f"Laptop {i}", description=f"Laptop {i}", code=f"LPTP{i}", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=15, ItemLocation_id=2, ItemBestelling_id=1)
     
 def create_users(apps, schema_editor):
     User.objects.create(name="superadmin", password=make_password("superadmin"), UserRole_id=1)

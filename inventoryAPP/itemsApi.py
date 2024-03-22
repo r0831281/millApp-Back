@@ -4,13 +4,15 @@ from inventoryAPP.models import Item, ItemTypes
 from inventoryAPP.schemas import ItemIn, itemTypesIn, ItemOut
 import datetime
 from inventoryAPP.wrappers import admin_required, scanner_required, superadmin_required
+from django.core.serializers import serialize
 
 router = Router()
 
 @router.get("/list")
 def list_items(request):
     items = Item.objects.all()
-    return JsonResponse([{"id": item.id, "name": item.name} for item in items], safe=False)
+    items = items.order_by("id")
+    return JsonResponse([{"id": item.id, "name": item.name, "description": item.description, "code": item.code, "date_inservice": item.date_inservice, "date_outservice": item.date_outservice, "date_scanned": item.date_scanned} for item in items], safe=False)
 
 @router.get("/add/{item_id}")
 def get_item(request, item_id: int):
@@ -23,7 +25,7 @@ def get_item(request, item_id: int):
 @router.post("/create")
 @admin_required
 def create_item(request, item_in: ItemIn):
-    if item_in.ItemTypes_id:
+    if item_in.ItemTypes:
         item = Item.objects.create(**item_in.dict())
         item.date_scanned = None
         return JsonResponse({"id": item.id, "name": item.name})
@@ -42,18 +44,16 @@ def scan_item(request, item_id: int):
 @admin_required
 def update_item(request, item_id: int, item_in: ItemIn):
     item = Item.objects.get(id=item_id)
-    item.name = item_in.name
-    item.description = item_in.description
-    item.code = item_in.code
-    item.date_inservice = item_in.date_inservice
-    item.date_outservice = item_in.date_outservice
-    item.ItemTypes_id = item_in.ItemTypes_id
+    for key, value in item_in.dict(exclude_unset = True).items():
+        setattr(item, key, value)
     item.save()
     return JsonResponse({"id": item.id, "name": item.name})
+
 
 @router.delete("/{item_id}")
 @admin_required
 def delete_item(request, item_id: int):
+    print(item_id)
     item = Item.objects.get(id=item_id)
     item.delete()
     return JsonResponse({"id": item_id, "status": "deleted"})
