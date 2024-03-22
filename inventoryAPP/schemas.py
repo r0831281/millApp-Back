@@ -23,6 +23,7 @@ class ItemIn(Schema):
     id: int
     name: str
     description: str
+    date_inservice: date
 
 class ItemOut(Schema):
     id: int

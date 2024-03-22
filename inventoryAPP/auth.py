@@ -40,6 +40,7 @@ class AuthBearer(HttpBearer):
         if user_model and user_model.userRole.accessLevel >= int(perm.strip) and user_model.has_perm(int(perm.strip)):
             return True
         return False
+    
 
 @router.post("/sign_in", auth=None)
 def sign_in(request, username: str = Form(...), password: str = Form(...)):
