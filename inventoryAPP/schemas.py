@@ -24,6 +24,7 @@ class ItemIn(Schema):
     name: str
     description: str
     date_inservice: date
+    date_outservice: date
 
 class ItemOut(Schema):
     id: int

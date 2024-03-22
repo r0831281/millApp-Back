@@ -19,7 +19,7 @@ def count_items(request):
     items = Item.objects.all()
     return items.count()
 
-@router.get("/add/{item_id}")
+@router.get("/{item_id}")
 def get_item(request, item_id: int):
     item = Item.objects.get(id=item_id)
     response = {"id": item.id, "name": item.name, "description": item.description, "code": item.code, "date_inservice": item.date_inservice, "date_outservice": item.date_outservice, "date_scanned": item.date_scanned}
