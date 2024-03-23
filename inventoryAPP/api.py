@@ -9,6 +9,7 @@ from django.contrib.auth.hashers import make_password
 from inventoryAPP.auth import AuthBearer
 from inventoryAPP.wrappers import admin_required, superadmin_required, scanner_required
 import inventoryAPP.itemsApi
+import inventoryAPP.locationApi
 
 
 router = Router()
@@ -50,7 +51,7 @@ def delete_user(request, user_id: int):
     user.delete()
     return JsonResponse({"id": user_id, "status": "deleted"})
 
-@router.get("/users")
+@router.get("/users/list")
 @admin_required
 def list_users(request):
     users = User.objects.all()
@@ -68,7 +69,8 @@ def create_user(request, user_in: UserIn):
 
 api = NinjaAPI(auth=AuthBearer(), csrf=False)
 
-api.add_router("/inventory", router)
+api.add_router("/v1", router)
 api.add_router("/auth", inventoryAPP.auth.router)
 api.add_router("/items", inventoryAPP.itemsApi.router)
+api.add_router("/locations", inventoryAPP.locationApi.router)
 

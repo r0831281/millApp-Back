@@ -35,7 +35,7 @@ class Bestelling(models.Model):
     quantity = models.IntegerField()
     supplier = models.CharField(max_length=100)
     date = models.DateField()
-    BestellingLocation = models.ForeignKey('Location', on_delete=models.PROTECT, null=True)
+    BestellingLocation = models.ForeignKey('Location', on_delete=models.SET_NULL, null=True)
     def __str__(self):
         return self.name
     

@@ -57,3 +57,24 @@ class UserOut(Schema):
     id: int
     name: str
     UserRole_id: int
+    
+class LocationIn(Schema):
+    name: str
+    shortname: str
+    description: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    country: str
+    
+class LocationOut(Schema):
+    id: int
+    name: str
+    shortname: str
+    description: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    country: str
