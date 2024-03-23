@@ -5,14 +5,15 @@ from inventoryAPP.schemas import ItemIn, itemTypesIn, ItemOut
 import datetime
 from inventoryAPP.wrappers import admin_required, scanner_required, superadmin_required
 from django.core.serializers import serialize
+from typing import List
 
 router = Router()
 
-@router.get("/list")
+@router.get("/list", response=List[ItemOut])
 def list_items(request):
-    items = Item.objects.all()
+    items = Item.objects.select_related("ItemTypes", "ItemLocation")
     items = items.order_by("id")
-    return JsonResponse([{"id": item.id, "name": item.name, "description": item.description, "code": item.code, "date_inservice": item.date_inservice, "date_outservice": item.date_outservice, "date_scanned": item.date_scanned} for item in items], safe=False)
+    return items
 
 @router.get("/count")
 def count_items(request):

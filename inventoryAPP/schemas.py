@@ -18,25 +18,6 @@ class itemTypesOut(Schema):
     quantity: int
     isbulk: bool
 
-
-class ItemIn(Schema):
-    id: int
-    name: str
-    description: str
-    date_inservice: date
-    date_outservice: date
-
-class ItemOut(Schema):
-    id: int
-    name: str
-    description: str
-    code: str
-    date_inservice: date
-    date_outservice: date
-    date_scanned: date
-    ItemTypes: itemTypesOut
-
-
 class roleIn(Schema):
     name: str
     accessLevel: int
@@ -78,3 +59,24 @@ class LocationOut(Schema):
     state: str
     zip: str
     country: str
+      
+class ItemOut(Schema):
+    id: int
+    name: str
+    description: str
+    code: str
+    date_inservice: date
+    date_outservice: date
+    date_scanned: date
+    ItemTypes: itemTypesOut
+    ItemLocation: LocationOut
+    
+class ItemIn(Schema):
+    name: str
+    description: str
+    code: str
+    date_inservice: date
+    date_outservice: date
+    ItemTypes_id: int
+    ItemLocation_id: int
+
