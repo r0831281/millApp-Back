@@ -2,7 +2,7 @@ from urllib.error import HTTPError
 from django.http import JsonResponse
 from ninja import Router, NinjaAPI
 from inventoryAPP.models import Item, ItemTypes, Bestelling, Location, Dienst, User, Role
-from inventoryAPP.schemas import ItemIn, UserIn, ItemOut
+from inventoryAPP.schemas import ItemIn, UserIn, ItemOut, UserOut
 from typing import List
 import inventoryAPP.auth
 from django.contrib.auth.hashers import make_password
@@ -34,6 +34,13 @@ def get_user(request, user_id: int):
     response = {"id": user.id, "name": user.name, "role" : user.UserRole.name}
     return JsonResponse(response)
 
+@router.get("/users", response=List[UserOut])
+@admin_required
+def list_users(request):
+    users = User.objects.select_related("UserRole")
+    users = users.order_by("id")
+    return users
+
 @router.put("/users/{user_id}")
 @admin_required
 def update_user(request, user_id: int, user_in: UserIn):
@@ -51,16 +58,9 @@ def delete_user(request, user_id: int):
     user.delete()
     return JsonResponse({"id": user_id, "status": "deleted"})
 
-@router.get("/users/list")
-@admin_required
-def list_users(request):
-    users = User.objects.all()
-    requester = request.auth.get("user")
-    response = [{"id": user.id, "name": user.name, "role" : user.UserRole.name} for user in users] + [{"requester": requester.name, "role" : requester.UserRole.name}]
-    return JsonResponse(response, safe=False)
-
 
 @router.post("/users")
+@superadmin_required
 def create_user(request, user_in: UserIn):
     user_in.password = make_password(user_in.password)
     user = User.objects.create(**user_in.dict())

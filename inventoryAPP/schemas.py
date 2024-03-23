@@ -37,7 +37,7 @@ class UserIn(Schema):
 class UserOut(Schema):
     id: int
     name: str
-    UserRole_id: int
+    UserRole: roleOut
     
 class LocationIn(Schema):
     name: str
