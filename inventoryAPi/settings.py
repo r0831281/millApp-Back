@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '192.168.1.107', '0.0.0.0', 'http://192.168.1.107']
 
+CORS_ALLOW_PRIVATE_NETWORK = True
+
 CORS_ALLOWED_ORIGINS = ['https://localhost:4200', 'http://localhost:4200', 'http://localhost', 'http://127.0.0.1:4200', 'http://0.0.0.0:4200', 'http://192.168.1.107:4200', 'http://192.168.1.107']
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken', 'X-Requested-With', 'Authorization', 'Accept', 'Origin', 'Referer', 'User-Agent', 'Host', 'Connection', 'Accept-Encoding', 'Accept-Language', 'Content-Length', 'Content-Type', 'Cookie', 'DNT', 'Referer', 'Sec-Fetch-Dest', 'Sec-Fetch-Mode', 'Sec-Fetch-Site', 'User-Agent', 'X-Requested-With']
 # CORS_ALLOW_ALL_ORIGINS = True
