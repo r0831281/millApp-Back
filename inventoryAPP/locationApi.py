@@ -25,7 +25,7 @@ def get_location(request, location_id: int):
     response = {"id": location.id, "name": location.name, "shortname": location.shortname, "description": location.description, "address": location.address, "city": location.city, "state": location.state, "zip": location.zip, "country": location.country}
     return JsonResponse(response)
 
-@router.post("/create")
+@router.post("/create/")
 @admin_required
 def create_location(request, location_in: LocationIn):
     location = Location.objects.create(**location_in.dict())

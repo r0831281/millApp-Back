@@ -42,7 +42,6 @@ class UserOut(Schema):
 class LocationIn(Schema):
     name: str
     shortname: str
-    description: str
     address: str
     city: str
     state: str

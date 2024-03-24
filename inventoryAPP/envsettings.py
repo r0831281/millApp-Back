@@ -3,7 +3,7 @@
 JWT_SIGNING_KEY = 'secretstring'
 
 #expiration time in minutes
-JWT_ACCESS_EXPIRY = 60
+JWT_ACCESS_EXPIRY = 120
 
 
 '''
