@@ -30,7 +30,7 @@ class AuthBearer(HttpBearer):
 
             if not user_model:
                 return None
-            # Include user_model in the return for additional information if needed
+            # Include user_model in the return for additional information
             return {"sub": username, "user": user_model}
         except Exception as e:
             return {"error": str(e)}
