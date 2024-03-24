@@ -28,7 +28,7 @@ def scanner_required(func):
     @functools.wraps(func)
     def wrapper(request, *args, **kwargs):
         if request.auth:
-            if request.auth.get("user").UserRole.accessLevel:
+            if request.auth.get("user").UserRole.accessLevel < 1:
                 return HttpResponseForbidden("You are not authorized for this action")
             return func(request, *args, **kwargs)
         else:

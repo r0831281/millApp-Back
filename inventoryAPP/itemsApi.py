@@ -28,16 +28,7 @@ def get_item(request, item_id: int):
         response["type"] = item.ItemTypes.name
     return JsonResponse(response)
 
-@router.post("/create")
-@admin_required
-def create_item(request, item_in: ItemIn):
-    if item_in.ItemTypes:
-        item = Item.objects.create(**item_in.dict())
-        item.date_scanned = None
-        return JsonResponse({"id": item.id, "name": item.name})
-    else:
-        return JsonResponse({"error": "Item type is required"}, status=400)
-    
+
 @router.post("/scan/{item_id}")
 @scanner_required
 def scan_item(request, item_id: int):
@@ -88,3 +79,14 @@ def create_type(request, item_in: itemTypesIn):
     else:
         itemType = ItemTypes.objects.create(**item_in.dict())
         return JsonResponse({"id": itemType.id, "name": itemType.name})
+
+
+@router.post("/create/")
+@admin_required
+def create_item(request, item_in: ItemIn):
+    if item_in.ItemTypes_id and item_in.ItemLocation_id:
+        item = Item.objects.create(**item_in.dict())
+        return JsonResponse({"id": item.id, "name": item.name})
+    else:
+        return JsonResponse({"error": "Item type and location are required"}, status=400)
+    
