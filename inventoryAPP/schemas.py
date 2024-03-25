@@ -64,8 +64,8 @@ class ItemOut(Schema):
     name: str
     description: str
     code: str
-    date_inservice: date
-    date_outservice: date
+    date_inservice: date | None
+    date_outservice: date | None
     date_scanned: date | None
     ItemTypes: itemTypesOut
     ItemLocation: LocationOut
@@ -74,9 +74,9 @@ class ItemIn(Schema):
     name: str
     description: str
     code: str
-    date_inservice: date
-    date_outservice: date
-    date_scanned: date
+    date_inservice: date | None
+    date_outservice: date | None
+    date_scanned: date | None 
     ItemTypes_id: int
     ItemLocation_id: int
 
