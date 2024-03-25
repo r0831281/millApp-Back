@@ -80,7 +80,7 @@ def create_items(apps, schema_editor):
     Item.objects.create(name="Laptop 6", description="Laptop 6", code="LPTP6", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=1, ItemLocation_id=2, ItemBestelling_id=6)
     # 100 more items testtt
     for i in range(7, 107):
-        Item.objects.create(name=f"Laptop {i}", description=f"Laptop {i}", code=f"LPTP{i}", date_inservice="2024-03-08", date_outservice="2024-03-08", date_scanned="2024-03-08", ItemTypes_id=15, ItemLocation_id=2, ItemBestelling_id=1)
+        Item.objects.create(name=f"Laptop {i}", description=f"Laptop {i}", code=f"LPTP{i}", ItemTypes_id=15, ItemLocation_id=2, ItemBestelling_id=1)
     
 def create_users(apps, schema_editor):
     User.objects.create(name="superadmin", password=make_password("superadmin"), UserRole_id=1)
