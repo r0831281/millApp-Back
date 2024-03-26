@@ -80,3 +80,21 @@ class ItemIn(Schema):
     ItemTypes_id: int
     ItemLocation_id: int
 
+
+class OrderOut(Schema):
+    id: int
+    unitPrice: float
+    quantity: int
+    supplier: str
+    date: date
+    BestellingLocation: LocationOut
+    
+class OrderIn(Schema):
+    unitPrice: float
+    quantity: int
+    supplier: str
+    date: date
+    BestellingLocation_id: int
+    
+    
+    
