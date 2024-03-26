@@ -2,7 +2,7 @@
 services:
   web:
     build: .
-    command: python /build/manage.py runserver 0.0.0.0:8000
+    command: bash -c  "python /build/manage.py migrate &&python /build/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/build
     ports:
@@ -15,6 +15,14 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     environment:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - 80:80
+    depends_on:
+      - web
 
 volumes:
   postgres_data:

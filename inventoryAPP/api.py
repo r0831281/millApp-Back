@@ -14,7 +14,7 @@ import inventoryAPP.locationApi
 
 router = Router()
 
-@router.get("/hello")
+@router.get("/hello", auth=None)
 def hello_world(request):
     return JsonResponse({"message": "Hello, world!"})
 
