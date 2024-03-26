@@ -46,6 +46,14 @@ def update_item(request, item_id: int, item_in: ItemIn):
     item.save()
     return JsonResponse({"id": item.id, "name": item.name})
 
+@router.post("/create/")
+@admin_required
+def create_item(request, item_in: ItemIn):
+    if item_in.ItemTypes_id and item_in.ItemLocation_id:
+        item = Item.objects.create(**item_in.dict())
+        return JsonResponse({"id": item.id, "name": item.name})
+    else:
+        return JsonResponse({"error": "Item type and location are required"}, status=400)
 
 @router.delete("/{item_id}")
 @admin_required
@@ -80,13 +88,22 @@ def create_type(request, item_in: itemTypesIn):
         itemType = ItemTypes.objects.create(**item_in.dict())
         return JsonResponse({"id": itemType.id, "name": itemType.name})
 
-
-@router.post("/create/")
+@router.put("/types/{type_id}")
 @admin_required
-def create_item(request, item_in: ItemIn):
-    if item_in.ItemTypes_id and item_in.ItemLocation_id:
-        item = Item.objects.create(**item_in.dict())
-        return JsonResponse({"id": item.id, "name": item.name})
-    else:
-        return JsonResponse({"error": "Item type and location are required"}, status=400)
+def update_type(request, type_id: int, item_in: itemTypesIn):
+    itemType = ItemTypes.objects.get(id=type_id)
+    for key, value in item_in.dict(exclude_unset = True).items():
+        setattr(itemType, key, value)
+    itemType.save()
+    return JsonResponse({"id": itemType.id, "name": itemType.name})
+
+@router.delete("/types/{type_id}")
+@admin_required
+def delete_type(request, type_id: int):
+    itemType = ItemTypes.objects.get(id=type_id)
+    itemType.delete()
+    return JsonResponse({"id": type_id, "status": "deleted"})
+
+
+
     

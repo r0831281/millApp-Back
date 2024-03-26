@@ -67,6 +67,41 @@ def create_user(request, user_in: UserIn):
     return JsonResponse({"id": user.id, "name": user.name})
 
 
+#roles crud routes
+@router.get("/roles")
+@admin_required
+def list_roles(request):
+    roles = Role.objects.all()
+    return roles
+
+@router.get("/roles/{role_id}")
+@admin_required
+def get_role(request, role_id: int):
+    role = Role.objects.get(id=role_id)
+    return JsonResponse({"id": role.id, "name": role.name})
+
+@router.post("/roles")
+@admin_required
+def create_role(request, name: str):
+    role = Role.objects.create(name=name)
+    return JsonResponse({"id": role.id, "name": role.name})
+
+@router.put("/roles/{role_id}")
+@admin_required
+def update_role(request, role_id: int, name: str):
+    role = Role.objects.get(id=role_id)
+    role.name = name
+    role.save()
+    return JsonResponse({"id": role.id, "name": role.name})
+
+@router.delete("/roles/{role_id}")
+@admin_required
+def delete_role(request, role_id: int):
+    role = Role.objects.get(id=role_id)
+    role.delete()
+    return JsonResponse({"id": role_id, "status": "deleted"})
+
+
 api = NinjaAPI(auth=AuthBearer(), csrf=False)
 
 api.add_router("/v1", router)
