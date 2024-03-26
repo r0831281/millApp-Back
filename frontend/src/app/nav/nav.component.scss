@@ -1,0 +1,40 @@
+.brand {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+  margin: 2%;
+}
+
+.container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 250px;
+  height: 100%;
+  overflow: auto;
+  background-color: #1976d2;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding-top: 60px;
+}
+
+.bottom-link {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.mysidenav {
+  width: 250px;
+  height: 100%;
+  overflow: auto;
+  padding-top:2%;
+}

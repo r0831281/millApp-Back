@@ -1,0 +1,44 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Users</mat-card-title>
+      <mat-card-subtitle>Manage your users</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" [routerLink]="['/admin/users/create']">Create User</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Role">
+          <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.UserRole.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Actions (Requires SuperAdmin) </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-icon-button color="accent" *ngIf="authService.getAccessLevel() === '3'" (click)="openDialog(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" *ngIf="authService.getAccessLevel() === '3'" (click)="deleteUser(element.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>
+</div>

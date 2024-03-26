@@ -1,0 +1,42 @@
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="side" class="mysidenav" opened>
+    <mat-nav-list>
+      <a mat-list-item *ngIf="authservice.getAccessLevel() === '2' || authservice.getAccessLevel() === '3'" mat-list-item routerLink="/admin/users" routerLink="/inventory/items/list">Inventory Management</a>
+      <a *ngIf="authservice.getAccessLevel() === '2' || authservice.getAccessLevel() === '3'" mat-list-item routerLink="/admin/users">User Management</a>
+      <a mat-list-item routerLink="inventory/scanner/scan">Scanner</a>
+      <div class="bottom-link">
+        <div>
+          <a *ngIf="!authservice.isLoggedIn()" mat-list-item (click)="openLoginDialog()">
+            <mat-icon style="margin-right: 8px;">person</mat-icon>
+            Login
+          </a>
+          <button *ngIf="authservice.isLoggedIn()" mat-list-item (click)="authservice.logout()">
+            <mat-icon style="margin-right: 8px;">exit_to_app</mat-icon>
+            Logout
+          </button>
+        </div>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav?.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <a routerLink="/" class="brand">MCH Inventory App</a>
+      <span *ngIf="currentRoute.startsWith('/inventory')" >
+        <button style="padding: 2%; margin: 2%;" mat-button routerLink="inventory/items/list">Items</button>
+        <button style="padding: 2%; margin: 2%;" mat-button routerLink="inventory/locations/list">Locaties</button>
+        <button style="padding: 2%; margin: 2%;" mat-button routerLink="inventory/users/list">Gebruikers</button>
+        <button style="padding: 2%; margin: 2%;" mat-button routerLink="inventory/orders/list">Bestellingen</button>
+        <button style="padding: 2%; margin: 2%;" mat-button routerLink="inventory/bulk/list">Types - Bulk Item</button>
+      </span>
+      <span *ngIf="currentRoute.startsWith('/admin')">
+        <button style="padding: 2%; margin: 2%;" mat-button routerLink="admin/users">Users</button>
+        <button style="padding: 2%; margin: 2%;" mat-button routerLink="admin/roles">Roles</button>
+      </span>
+    </mat-toolbar>
+    <br>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,56 @@
+<!--
+  address : "1, Warehouse Street"
+city : "Warehouse City"
+country : "Warehouse Country"
+description : "Warehouse"
+id : 2
+name : "Warehouse"
+shortname : "WH"
+state : "Warehouse State"
+zip : "0000"
+ -->
+ <h2 mat-dialog-title>Edit Location</h2>
+
+ <div mat-dialog-content fxLayout="column" fxLayoutGap="15px">
+   <form fxLayoutGap="10px">
+     <mat-form-field fxFlex>
+       <label for="name">Name</label>
+       <input matInput placeholder="Name" [(ngModel)]="editedLocation.name" name="name">
+     </mat-form-field>
+
+     <mat-form-field fxFlex>
+       <label for="shortname">Short Name</label>
+       <input matInput placeholder="Short Name" [(ngModel)]="editedLocation.shortname" name="shortname">
+     </mat-form-field>
+
+     <mat-form-field fxFlex>
+       <label for="address">Address</label>
+       <input matInput placeholder="Address" [(ngModel)]="editedLocation.address" name="address">
+     </mat-form-field>
+
+     <mat-form-field fxFlex>
+       <label for="city">City</label>
+       <input matInput placeholder="City" [(ngModel)]="editedLocation.city" name="city">
+     </mat-form-field>
+
+     <mat-form-field fxFlex>
+       <label for="state">State</label>
+       <input matInput placeholder="State" [(ngModel)]="editedLocation.state" name="state">
+     </mat-form-field>
+
+     <mat-form-field fxFlex>
+       <label for="zip">Zip</label>
+       <input matInput placeholder="Zip" [(ngModel)]="editedLocation.zip" name="zip">
+     </mat-form-field>
+
+     <mat-form-field fxFlex>
+       <label for="country">Country</label>
+       <input matInput placeholder="Country" [(ngModel)]="editedLocation.country" name="country">
+     </mat-form-field>
+   </form>
+ </div>
+
+ <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+   <button mat-button (click)="dialogRef.close()">Cancel</button>
+   <button mat-button [mat-dialog-close]="editedLocation" cdkFocusInitial>Save</button>
+ </div>
