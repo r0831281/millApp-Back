@@ -117,11 +117,11 @@ def list_userItems(request):
     items = UserItem.objects.all()
     return items
 
-@router.get("/userItems/{userItem_id}")
+@router.get("/userItems/{userItem_id}", response=List[UserItemOut])
 @admin_required
 def get_userItem(request, userItem_id: int):
-    item = UserItem.objects.get(id=userItem_id)
-    return item
+    items = UserItem.objects.filter(user_id=userItem_id)
+    return items
 
 @router.post("/userItems/create/")
 @admin_required

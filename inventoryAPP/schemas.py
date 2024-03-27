@@ -105,7 +105,7 @@ class UserItemIn(Schema):
 
 class UserItemOut(Schema):
     id: int
-    user_id: int
-    item_id: int   
+    user: UserOut
+    item: ItemOut  
     
     
