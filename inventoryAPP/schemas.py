@@ -18,12 +18,12 @@ class itemTypesOut(Schema):
     quantity: int
     isbulk: bool
 
-class roleIn(Schema):
+class RoleIn(Schema):
     name: str
     accessLevel: int
     
 
-class roleOut(Schema):
+class RoleOut(Schema):
     id: int
     name: str
     accessLevel: int
@@ -31,13 +31,16 @@ class roleOut(Schema):
 class UserIn(Schema):
     name: str
     password: str
-    UserRole_id: int
+    UserRole: int
 
+class UpdateUserIn(Schema):
+    name: str
+    UserRole: RoleOut
     
 class UserOut(Schema):
     id: int
     name: str
-    UserRole: roleOut
+    UserRole: RoleOut
     
 class LocationIn(Schema):
     name: str

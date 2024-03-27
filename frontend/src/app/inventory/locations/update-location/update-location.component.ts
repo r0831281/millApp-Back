@@ -22,7 +22,6 @@ export class UpdateLocationComponent {
   editedLocation: Location;
   constructor(
     public dialogRef: MatDialogRef<UpdateLocationComponent>,
-    private locationService: LocationService,
     @Inject(MAT_DIALOG_DATA) public data: { location: Location }
   ) {
     // Clone the location to avoid modifying the original data directly

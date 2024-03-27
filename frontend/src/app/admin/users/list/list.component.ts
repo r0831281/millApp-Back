@@ -11,11 +11,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../servces/auth.service';
 import { NgIf } from '@angular/common';
+import { UpdateComponent } from '../../users/update/update.component';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatTableModule, MatIcon, NgIf],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatTableModule, MatIcon, NgIf, MatDialogModule, UpdateComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
@@ -61,8 +62,29 @@ export class ListComponent implements OnInit{
     console.log('Filter value: ', filterValue);
   }
 
-  openDialog(element: User) {
-    console.log('Open dialog', element);
+  openDialog(user: User) {
+    console.log('Element: ', user);
+    const dialogRef = this.dialog.open(UpdateComponent, {
+      data: {user: user}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        this.userService.updateUser(result).subscribe(() => {
+          if (result.id === user.id) {
+            this.loadUsers();
+            return result;
+          }
+          else {
+            console.log('Error updating user');
+          }
+          this.loadUsers();
+        });
+      }
+    });
+
+
   }
 
 

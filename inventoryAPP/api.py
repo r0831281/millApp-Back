@@ -2,7 +2,7 @@ from urllib.error import HTTPError
 from django.http import JsonResponse
 from ninja import Router, NinjaAPI
 from inventoryAPP.models import Item, ItemTypes, Bestelling, Location, Dienst, User, Role
-from inventoryAPP.schemas import ItemIn, UserIn, ItemOut, UserOut
+from inventoryAPP.schemas import ItemIn, UserIn, ItemOut, UserOut, RoleOut, LocationIn, LocationOut, UpdateUserIn, RoleIn
 from typing import List
 import inventoryAPP.auth
 from django.contrib.auth.hashers import make_password
@@ -43,11 +43,10 @@ def list_users(request):
 
 @router.put("/users/{user_id}")
 @admin_required
-def update_user(request, user_id: int, user_in: UserIn):
+def update_user(request, user_id: int, user_in: UpdateUserIn):
     user = User.objects.get(id=user_id)
     user.name = user_in.name
-    user.password = make_password(user_in.password)
-    user.UserRole = Role.objects.get(id=user_in.UserRole_id)
+    user.UserRole = Role.objects.get(id=user_in.UserRole.id)
     user.save()
     return JsonResponse({"id": user.id, "name": user.name})
 
@@ -63,12 +62,13 @@ def delete_user(request, user_id: int):
 @superadmin_required
 def create_user(request, user_in: UserIn):
     user_in.password = make_password(user_in.password)
+    user_in.UserRole = Role.objects.get(id=user_in.UserRole)
     user = User.objects.create(**user_in.dict())
     return JsonResponse({"id": user.id, "name": user.name})
 
 
 #roles crud routes
-@router.get("/roles")
+@router.get("/roles", response=List[RoleOut])
 @admin_required
 def list_roles(request):
     roles = Role.objects.all()
@@ -81,13 +81,13 @@ def get_role(request, role_id: int):
     return JsonResponse({"id": role.id, "name": role.name})
 
 @router.post("/roles")
-@admin_required
-def create_role(request, name: str):
-    role = Role.objects.create(name=name)
+@superadmin_required
+def create_role(request, role_in: RoleIn ):
+    role = Role.objects.create(name=role_in.name, accessLevel=role_in.accessLevel)
     return JsonResponse({"id": role.id, "name": role.name})
 
 @router.put("/roles/{role_id}")
-@admin_required
+@superadmin_required
 def update_role(request, role_id: int, name: str):
     role = Role.objects.get(id=role_id)
     role.name = name
@@ -95,7 +95,7 @@ def update_role(request, role_id: int, name: str):
     return JsonResponse({"id": role.id, "name": role.name})
 
 @router.delete("/roles/{role_id}")
-@admin_required
+@superadmin_required
 def delete_role(request, role_id: int):
     role = Role.objects.get(id=role_id)
     role.delete()
