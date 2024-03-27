@@ -14,6 +14,7 @@ import { ListComponent as RoleListeComponent } from './admin/roles/list/list.com
 import { CreateComponent as RoleCreateComponent } from './admin/roles/create/create.component';
 import { ListComponent as TypeListComponent } from './inventory/types/list/list.component';
 import { CreateComponent as TypeCreateComponent } from './inventory/types/create/create.component';
+import { ListComponent as UserItemListComponent } from './inventory/user/list/list.component';
 
 
 export const routes: Routes = [
@@ -27,7 +28,8 @@ export const routes: Routes = [
     { path: 'locations/create', component: CreateLocationComponent},
     { path: 'scanner/scan', component: ScannerComponent},
     { path: 'bulk/list', component: TypeListComponent},
-    { path: 'bulk/create', component: TypeCreateComponent}
+    { path: 'bulk/create', component: TypeCreateComponent},
+    { path: 'user/list', component: UserItemListComponent}
   ]},
   { path: 'admin', canActivateChild: [authGuard], children: [
     { path: 'users', component: UserListComponent},

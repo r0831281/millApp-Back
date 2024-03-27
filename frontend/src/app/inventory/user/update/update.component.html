@@ -1,1 +1,24 @@
-<p>update works!</p>
+<h2 mat-dialog-title>edit user item</h2>
+
+<div mat-dialog-content fxLayout="column" fxLayoutGap="15px">
+  <form fxLayoutGap="10px">
+    <mat-form-field>
+      <mat-label>Select User</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let user of users" [value]="user.id">{{user.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Item</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let item of items" [value]="item.id">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-button [mat-dialog-close]="editItem" cdkFocusInitial>Save</button>
+</div>

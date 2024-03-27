@@ -1,1 +1,49 @@
-<p>list works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-title>Users</mat-card-title>
+    <mat-card-subtitle>Manage users</mat-card-subtitle>
+    <mat-card-content>
+      <button mat-raised-button color="primary" [routerLink]="">Add User Item</button>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let userItem"> {{userItem.id}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+        <td mat-cell *matCellDef="let userItem"> {{userItem.user.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="item">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+        <td mat-cell *matCellDef="let userItem"> {{userItem.item.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="accent" (click)="openDialog(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteItem(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+  </div>
+</mat-card-content>
+</mat-card>
+</div>
