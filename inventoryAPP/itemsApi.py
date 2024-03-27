@@ -1,7 +1,7 @@
 from ninja import Router
 from django.http import JsonResponse
 from inventoryAPP.models import Item, ItemTypes
-from inventoryAPP.schemas import ItemIn, itemTypesIn, ItemOut
+from inventoryAPP.schemas import ItemIn, itemTypesIn, ItemOut, itemTypesOut
 import datetime
 from inventoryAPP.wrappers import admin_required, scanner_required, superadmin_required
 from django.core.serializers import serialize
@@ -63,10 +63,10 @@ def delete_item(request, item_id: int):
     item.delete()
     return JsonResponse({"id": item_id, "status": "deleted"})
 
-@router.get("/types/list/")
+@router.get("/types/list/", response=List[itemTypesOut])
 def list_types(request):
     types = ItemTypes.objects.all()
-    return JsonResponse([{"id": itemType.id, "name": itemType.name} for itemType in types], safe=False)
+    return types
 
 @router.get("/types/{type_id}")
 def get_type(request, type_id: int):
@@ -105,5 +105,12 @@ def delete_type(request, type_id: int):
     return JsonResponse({"id": type_id, "status": "deleted"})
 
 
-
+@router.post("/types/bulk/{type_id}")
+@admin_required
+def create_bulk(request, type_id: int, amount: int):
+    itemType = ItemTypes.objects.get(id=type_id)
+    for i in range(amount):
+        item = Item(name=itemType.name, code=itemType.code + i, ItemTypes=itemType)
+        item.save()
+    return JsonResponse({"id": itemType.id, "name": itemType.name})
     

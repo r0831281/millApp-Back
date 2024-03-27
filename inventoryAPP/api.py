@@ -59,7 +59,7 @@ def delete_user(request, user_id: int):
 
 
 @router.post("/users")
-@superadmin_required
+@admin_required
 def create_user(request, user_in: UserIn):
     user_in.password = make_password(user_in.password)
     user_in.UserRole = Role.objects.get(id=user_in.UserRole)

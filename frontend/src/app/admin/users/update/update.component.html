@@ -1,0 +1,26 @@
+<!-- export interface User {
+  id: number;
+  name: string;
+  role: string; -> dropdown
+} -->
+
+<h2 mat-dialog-title>Edit User</h2>
+
+<div mat-dialog-content fxLayout="column" fxLayoutGap="15px">
+  <form fxLayoutGap="10px">
+    <mat-form-field fxFlex>
+      <label for="name">Name</label>
+      <input matInput placeholder="Name" [(ngModel)]="editedUser.name" name="name">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <label for="role">Role</label>
+      <mat-select placeholder="Role" [(ngModel)]="editedUser.UserRole" [(value)]="editedUser.UserRole" name="role">
+        <mat-option *ngFor="let role of roles" [value]="role">{{role.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+  <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-button [mat-dialog-close]="editedUser" cdkFocusInitial>Save</button>
+  </div>
