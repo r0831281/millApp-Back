@@ -133,10 +133,10 @@ def create_userItem(request, item_in: UserItemIn):
 @admin_required
 def update_userItem(request, userItem_id: int, item_in: UserItemIn):
     item = UserItem.objects.get(id=userItem_id)
-    for key, value in item_in.dict(exclude_unset = True).items():
+    for key, value in item_in.dict(exclude_unset=True).items():
         setattr(item, key, value)
     item.save()
-    return item
+    return JsonResponse({"id": item.id})
 
 @router.delete("/userItems/{userItem_id}")
 @admin_required

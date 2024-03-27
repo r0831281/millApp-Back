@@ -99,13 +99,13 @@ class OrderIn(Schema):
     date: date
     BestellingLocation_id: int
 
-class UserItemIn(Schema):
-    user_id: int
-    item_id: int
 
 class UserItemOut(Schema):
     id: int
     user: UserOut
     item: ItemOut  
     
+class UserItemIn(Schema):
+    user_id: int
+    item_id: int 
     
