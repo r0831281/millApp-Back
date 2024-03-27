@@ -65,13 +65,13 @@ class LocationOut(Schema):
 class ItemOut(Schema):
     id: int
     name: str
-    description: str
+    description: str | None
     code: str
     date_inservice: date | None
     date_outservice: date | None
     date_scanned: date | None
     ItemTypes: itemTypesOut
-    ItemLocation: LocationOut
+    ItemLocation: LocationOut | None
     
 class ItemIn(Schema):
     name: str

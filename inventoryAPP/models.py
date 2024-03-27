@@ -10,8 +10,8 @@ class Item(models.Model):
     date_outservice = models.DateField(blank=True, null=True, default=None)
     date_scanned = models.DateField(blank=True, null=True, default=None)
     ipAdress = models.CharField(max_length=100, blank=True, null=True)
-    ItemTypes = models.ForeignKey('ItemTypes', on_delete=models.PROTECT, null=False, default=0)
-    ItemLocation = models.ForeignKey('Location', on_delete=models.PROTECT, null=True)
+    ItemTypes = models.ForeignKey('ItemTypes', on_delete=models.PROTECT, null=False, default=1)
+    ItemLocation = models.ForeignKey('Location', on_delete=models.PROTECT, null=False, default=1)
     ItemBestelling = models.ForeignKey('Bestelling', on_delete=models.PROTECT, null=True)
     def __str__(self):
         return self.name

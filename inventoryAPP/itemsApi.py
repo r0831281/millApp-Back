@@ -77,14 +77,6 @@ def get_type(request, type_id: int):
 @router.post("/types/add/")
 @admin_required
 def create_type(request, item_in: itemTypesIn):
-    if item_in.isbulk:
-        amount = item_in.quantity
-        itemType = ItemTypes.objects.create(**item_in.dict())
-        for i in range(amount):
-            item = Item(name=itemType.name, code=itemType.code, ItemTypes=itemType)
-            item.save()
-        return JsonResponse({"id": itemType.id, "name": itemType.name})
-    else:
         itemType = ItemTypes.objects.create(**item_in.dict())
         return JsonResponse({"id": itemType.id, "name": itemType.name})
 
@@ -110,7 +102,8 @@ def delete_type(request, type_id: int):
 def create_bulk(request, type_id: int, amount: int):
     itemType = ItemTypes.objects.get(id=type_id)
     for i in range(amount):
-        item = Item(name=itemType.name, code=itemType.code + i, ItemTypes=itemType)
+        item = Item(name=itemType.name, description=itemType.name + " from bulk type " + itemType.description , code=itemType.code, ItemTypes=itemType)
+        print(item.description)
         item.save()
     return JsonResponse({"id": itemType.id, "name": itemType.name})
     
