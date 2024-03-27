@@ -1,7 +1,7 @@
 from ninja import Router
 from django.http import JsonResponse
-from inventoryAPP.models import Item, ItemTypes
-from inventoryAPP.schemas import ItemIn, itemTypesIn, ItemOut, itemTypesOut
+from inventoryAPP.models import Item, ItemTypes, UserItem
+from inventoryAPP.schemas import ItemIn, itemTypesIn, ItemOut, itemTypesOut, UserItemIn, UserItemOut
 import datetime
 from inventoryAPP.wrappers import admin_required, scanner_required, superadmin_required
 from django.core.serializers import serialize
@@ -66,6 +66,7 @@ def delete_item(request, item_id: int):
 @router.get("/types/list/", response=List[itemTypesOut])
 def list_types(request):
     types = ItemTypes.objects.all()
+    types.order_by("id")
     return types
 
 @router.get("/types/{type_id}")
@@ -106,4 +107,48 @@ def create_bulk(request, type_id: int, amount: int):
         print(item.description)
         item.save()
     return JsonResponse({"id": itemType.id, "name": itemType.name})
-    
+
+
+#userItem crud routes
+
+@router.get("/userItems/list/", response=List[UserItemOut])
+@admin_required
+def list_userItems(request):
+    items = UserItem.objects.all()
+    return items
+
+@router.get("/userItems/{userItem_id}")
+@admin_required
+def get_userItem(request, userItem_id: int):
+    item = UserItem.objects.get(id=userItem_id)
+    return item
+
+@router.post("/userItems/create/")
+@admin_required
+def create_userItem(request, item_in: UserItemIn):
+    item = UserItem.objects.create(**item_in.dict())
+    return item
+
+@router.put("/userItems/{userItem_id}")
+@admin_required
+def update_userItem(request, userItem_id: int, item_in: UserItemIn):
+    item = UserItem.objects.get(id=userItem_id)
+    for key, value in item_in.dict(exclude_unset = True).items():
+        setattr(item, key, value)
+    item.save()
+    return item
+
+@router.delete("/userItems/{userItem_id}")
+@admin_required
+def delete_userItem(request, userItem_id: int):
+    item = UserItem.objects.get(id=userItem_id)
+    item.delete()
+    return JsonResponse({"id": userItem_id, "status": "deleted"})
+
+
+@router.get("/userItems/{user_id}")
+@admin_required
+def get_userItems(request, user_id: int):
+    items = Item.objects.filter(user_id=user_id)
+    return items
+

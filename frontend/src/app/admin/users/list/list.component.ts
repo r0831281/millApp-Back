@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,11 +12,12 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../servces/auth.service';
 import { NgIf } from '@angular/common';
 import { UpdateComponent } from '../../users/update/update.component';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatTableModule, MatIcon, NgIf, MatDialogModule, UpdateComponent],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatTableModule, MatIcon, NgIf, MatDialogModule, UpdateComponent, MatPaginatorModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
@@ -24,6 +25,7 @@ export class ListComponent implements OnInit{
   displayedColumns: string[] = ['id', 'name', 'Role', 'actions'];
   users: User[] = [];
   dataSource = new MatTableDataSource<User>(this.users);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private userService: UserService,
@@ -37,9 +39,6 @@ export class ListComponent implements OnInit{
     });
   }
 
-  getCurrentUserAcces() {
-    return this.authService.getAccessLevel;
-  }
 
 
   ngOnInit() {
@@ -48,6 +47,7 @@ export class ListComponent implements OnInit{
 
   initializeDataSource() {
     this.dataSource = new MatTableDataSource<User>(this.users);
+    this.dataSource.paginator = this.paginator;
   }
 
   loadUsers() {

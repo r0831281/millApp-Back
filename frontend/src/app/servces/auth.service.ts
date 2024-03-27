@@ -28,7 +28,7 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('accessLevel');
     localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
     this.logedIn = false;
   }
 

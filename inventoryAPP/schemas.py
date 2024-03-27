@@ -98,6 +98,14 @@ class OrderIn(Schema):
     supplier: str
     date: date
     BestellingLocation_id: int
-    
+
+class UserItemIn(Schema):
+    user_id: int
+    item_id: int
+
+class UserItemOut(Schema):
+    id: int
+    user_id: int
+    item_id: int   
     
     

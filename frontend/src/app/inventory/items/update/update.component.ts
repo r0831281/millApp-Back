@@ -36,6 +36,9 @@ export class UpdateComponent {
   ngOnInit() {
     this.loadLocations();
   }
+  close() {
+    this.dialogRef.close();
+  }
 
   loadLocations() {
     this.locationService.getLocations().subscribe(locations => {

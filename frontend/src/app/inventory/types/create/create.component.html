@@ -1,1 +1,51 @@
-<p>create works!</p>
+<form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="item-form">
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Item Details</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <mat-form-field appearance="fill">
+        <input matInput placeholder="Name" formControlName="name" required>
+        <mat-error *ngIf="itemForm.get('name')?.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <input matInput placeholder="Subcategory" formControlName="subcategory">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <input matInput placeholder="Code" formControlName="code">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+      </mat-form-field>
+
+      <div *ngIf="itemForm.get('isbulk')?.value" class="bulk-quantity">
+        <mat-form-field appearance="fill">
+          <input matInput type="number" placeholder="Quantity (Unit)" formControlName="quantity">
+        </mat-form-field>
+      </div>
+
+      <mat-slide-toggle formControlName="isbulk">Is Bulk Item?</mat-slide-toggle>
+
+
+
+
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </mat-card-actions>
+  </mat-card>
+
+
+</div>
+
+</form>

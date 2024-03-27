@@ -84,7 +84,7 @@ class User(models.Model):
     
 
     
-class userItem(models.Model):
+class UserItem(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey('User', on_delete=models.PROTECT, null=True)
     item = models.ForeignKey('Item', on_delete=models.PROTECT, null=True)

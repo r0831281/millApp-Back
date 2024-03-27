@@ -3,3 +3,8 @@ export interface Role {
   name: string;
   accessLevel: number;
 }
+
+export interface RoleOut {
+  name: string;
+  accessLevel: number;
+}

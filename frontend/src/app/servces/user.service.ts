@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from './models/user';
+import { User, UserOut } from './models/user';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -22,7 +22,8 @@ export class UserService {
     return this.http.get<User>(url);
   }
 
-  createUser(user: User): Observable<User> {
+  createUser(user: UserOut): Observable<User> {
+    console.log(user);
     return this.http.post<User>(this.userApiUrl, user);
   }
 
