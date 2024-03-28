@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="title">
+    <h2>Login</h2>
+    <button mat-icon-button mat-dialog-close class="close-button" (click)="close()" style="position: absolute; top: 0; right: 0;">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="login-popup mat-dialog-content">
+    <form (submit)="login()">
+      <mat-form-field>
+        <input matInput type="text" placeholder="Username" [(ngModel)]="username" name="username" autocomplete="username">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" autocomplete="current-password" required>
+      </mat-form-field>
+      <br>
+      <span class="danger" *ngIf="error">{{ error }}</span>
+      <br>
+      <div style="text-align: center;">
+        <button mat-raised-button color="primary" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

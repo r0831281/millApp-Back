@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-title>Create User</mat-card-title>
+  <mat-card-content>
+    <form>
+      <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="user.name" name="naame" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Password" [(ngModel)]="user.password" name="password" required>
+      </mat-form-field>
+<!-- select role from available roles -->
+      <mat-form-field>
+        <mat-select placeholder="Role" [(ngModel)]="user.UserRole" name="role" required>
+          <mat-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="createUser()">Create</button>
+    </form>
+  </mat-card-content>
+</mat-card>

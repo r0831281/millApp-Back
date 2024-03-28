@@ -1,0 +1,57 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Item</mat-card-title>
+      <mat-card-subtitle>Fill in the form to create a new item</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content
+      fxLayout="column"
+      fxLayoutGap="15px"
+    >
+    <div class="custom">
+      <mat-form-field fxFlex class="selectbox">
+        <mat-select [(ngModel)]="item.ItemLocation_id" name="Locations">
+          <mat-option *ngFor="let location of locations" [value]="location.id">{{location.shortname}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex class="selectbox">
+        <mat-select [(ngModel)]="item.ItemTypes_id" name="itemTypes">
+          <mat-option *ngFor="let type of types" [value]="type.id">{{type.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+      <div *ngIf="item.ItemLocation_id && item.ItemTypes_id">
+        <form fxLayoutGap="10px">
+          <mat-form-field fxFlex>
+            <label for="name">Name</label>
+            <input matInput placeholder="Name" [(ngModel)]="item.name" name="name">
+          </mat-form-field>
+
+          <mat-form-field fxFlex>
+            <label for="description">Description</label>
+            <input matInput placeholder="Description" [(ngModel)]="item.description" name="description">
+          </mat-form-field>
+
+          <mat-form-field fxFlex>
+            <label for="code">Code</label>
+            <input matInput placeholder="Code" [(ngModel)]="item.code" name="code">
+          </mat-form-field>
+
+          <div fxLayout="row" fxLayoutAlign="end center">
+            <button mat-raised-button color="primary" (click)="saveItem()">Save</button>
+          </div>
+        </form>
+      </div>
+
+    </mat-card-content>
+
+    <div fxLayout="row">
+      <button mat-raised-button color="primary" [routerLink]="['/inventory/items/list']">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Items
+      </button>
+    </div>
+
+  </mat-card>
+</div>

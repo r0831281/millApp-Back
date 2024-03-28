@@ -1,0 +1,66 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Items</mat-card-title>
+      <mat-card-subtitle>Manage items</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput [(ngModel)]="enteredData" (keyup)="applyFilter($event)" placeholder="Search">
+      </mat-form-field>
+      <button mat-raised-button color="primary" routerLink="/inventory/items/create">
+        <mat-icon>add</mat-icon>
+        Create Item
+      </button>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef> Location </th>
+          <td mat-cell *matCellDef="let element"> {{element.ItemLocation.shortname}} </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef> Code </th>
+          <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="date_inservice">
+          <th mat-header-cell *matHeaderCellDef> Date In Service </th>
+          <td mat-cell *matCellDef="let element"> {{element.date_inservice}} </td>
+        </ng-container>
+        <ng-container matColumnDef="date_outservice">
+          <th mat-header-cell *matHeaderCellDef> Date Out Service </th>
+          <td mat-cell *matCellDef="let element"> {{element.date_outservice}} </td>
+        </ng-container>
+        <ng-container matColumnDef="date_scanned">
+          <th mat-header-cell *matHeaderCellDef> Date Scanned </th>
+          <td mat-cell *matCellDef="let element"> {{element.date_scanned}} </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="accent" (click)="openDialog(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteItem(element.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

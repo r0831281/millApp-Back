@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Edit Type</h2>
+
+<div mat-dialog-content fxLayout="column" fxLayoutGap="15px">
+  <form fxLayoutGap="10px">
+    <mat-form-field fxFlex>
+      <label for="name">Name</label>
+      <input matInput placeholder="Name" [(ngModel)]="editedType.name" name="name">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <label for="description">Description</label>
+      <input matInput placeholder="Description" [(ngModel)]="editedType.description" name="description">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <label for="code">Code</label>
+      <input matInput placeholder="Code" [(ngModel)]="editedType.code" name="code">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <label for="category">Category</label>
+      <input matInput placeholder="Category" [(ngModel)]="editedType.subcategory" name="category">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <label for="quantity" >Quantity</label>
+      <input matInput placeholder="Quantity" [(ngModel)]="editedType.quantity" name="quantity">
+    </mat-form-field>
+
+
+  </form>
+</div>
+
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-button [mat-dialog-close]="editedType" cdkFocusInitial>Save</button>
+</div>

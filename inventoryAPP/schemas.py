@@ -18,12 +18,12 @@ class itemTypesOut(Schema):
     quantity: int
     isbulk: bool
 
-class roleIn(Schema):
+class RoleIn(Schema):
     name: str
     accessLevel: int
     
 
-class roleOut(Schema):
+class RoleOut(Schema):
     id: int
     name: str
     accessLevel: int
@@ -31,13 +31,16 @@ class roleOut(Schema):
 class UserIn(Schema):
     name: str
     password: str
-    UserRole_id: int
+    UserRole: int
 
+class UpdateUserIn(Schema):
+    name: str
+    UserRole: RoleOut
     
 class UserOut(Schema):
     id: int
     name: str
-    UserRole: roleOut
+    UserRole: RoleOut
     
 class LocationIn(Schema):
     name: str
@@ -62,13 +65,13 @@ class LocationOut(Schema):
 class ItemOut(Schema):
     id: int
     name: str
-    description: str
+    description: str | None
     code: str
     date_inservice: date | None
     date_outservice: date | None
     date_scanned: date | None
     ItemTypes: itemTypesOut
-    ItemLocation: LocationOut
+    ItemLocation: LocationOut | None
     
 class ItemIn(Schema):
     name: str
@@ -95,6 +98,14 @@ class OrderIn(Schema):
     supplier: str
     date: date
     BestellingLocation_id: int
+
+
+class UserItemOut(Schema):
+    id: int
+    user: UserOut
+    item: ItemOut  
     
-    
+class UserItemIn(Schema):
+    user_id: int
+    item_id: int 
     

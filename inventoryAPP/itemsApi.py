@@ -1,7 +1,7 @@
 from ninja import Router
 from django.http import JsonResponse
-from inventoryAPP.models import Item, ItemTypes
-from inventoryAPP.schemas import ItemIn, itemTypesIn, ItemOut
+from inventoryAPP.models import Item, ItemTypes, UserItem
+from inventoryAPP.schemas import ItemIn, itemTypesIn, ItemOut, itemTypesOut, UserItemIn, UserItemOut
 import datetime
 from inventoryAPP.wrappers import admin_required, scanner_required, superadmin_required
 from django.core.serializers import serialize
@@ -63,10 +63,11 @@ def delete_item(request, item_id: int):
     item.delete()
     return JsonResponse({"id": item_id, "status": "deleted"})
 
-@router.get("/types/list/")
+@router.get("/types/list/", response=List[itemTypesOut])
 def list_types(request):
     types = ItemTypes.objects.all()
-    return JsonResponse([{"id": itemType.id, "name": itemType.name} for itemType in types], safe=False)
+    types.order_by("id")
+    return types
 
 @router.get("/types/{type_id}")
 def get_type(request, type_id: int):
@@ -77,14 +78,6 @@ def get_type(request, type_id: int):
 @router.post("/types/add/")
 @admin_required
 def create_type(request, item_in: itemTypesIn):
-    if item_in.isbulk:
-        amount = item_in.quantity
-        itemType = ItemTypes.objects.create(**item_in.dict())
-        for i in range(amount):
-            item = Item(name=itemType.name, code=itemType.code, ItemTypes=itemType)
-            item.save()
-        return JsonResponse({"id": itemType.id, "name": itemType.name})
-    else:
         itemType = ItemTypes.objects.create(**item_in.dict())
         return JsonResponse({"id": itemType.id, "name": itemType.name})
 
@@ -105,5 +98,57 @@ def delete_type(request, type_id: int):
     return JsonResponse({"id": type_id, "status": "deleted"})
 
 
+@router.post("/types/bulk/{type_id}")
+@admin_required
+def create_bulk(request, type_id: int, amount: int):
+    itemType = ItemTypes.objects.get(id=type_id)
+    for i in range(amount):
+        item = Item(name=itemType.name, description=itemType.name + " from bulk type " + itemType.description , code=itemType.code, ItemTypes=itemType)
+        print(item.description)
+        item.save()
+    return JsonResponse({"id": itemType.id, "name": itemType.name})
 
-    
+
+#userItem crud routes
+
+@router.get("/userItems/list/", response=List[UserItemOut])
+@admin_required
+def list_userItems(request):
+    items = UserItem.objects.all()
+    return items
+
+@router.get("/userItems/{userItem_id}", response=List[UserItemOut])
+@admin_required
+def get_userItem(request, userItem_id: int):
+    items = UserItem.objects.filter(user_id=userItem_id)
+    return items
+
+@router.post("/userItems/create/")
+@admin_required
+def create_userItem(request, item_in: UserItemIn):
+    item = UserItem.objects.create(**item_in.dict())
+    return item
+
+@router.put("/userItems/{userItem_id}")
+@admin_required
+def update_userItem(request, userItem_id: int, item_in: UserItemIn):
+    item = UserItem.objects.get(id=userItem_id)
+    for key, value in item_in.dict(exclude_unset=True).items():
+        setattr(item, key, value)
+    item.save()
+    return JsonResponse({"id": item.id})
+
+@router.delete("/userItems/{userItem_id}")
+@admin_required
+def delete_userItem(request, userItem_id: int):
+    item = UserItem.objects.get(id=userItem_id)
+    item.delete()
+    return JsonResponse({"id": userItem_id, "status": "deleted"})
+
+
+@router.get("/userItems/{user_id}")
+@admin_required
+def get_userItems(request, user_id: int):
+    items = Item.objects.filter(user_id=user_id)
+    return items
+

@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+
+
+.outlet {
+  padding: 3%;
+}
+
+.container {
+  padding: 2%;
+}
+
+button {
+  margin: 10px;
+}

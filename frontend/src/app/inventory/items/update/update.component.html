@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Edit Item</h2>
+
+<div mat-dialog-content fxLayout="column" fxLayoutGap="15px">
+  <form fxLayoutGap="10px">
+    <mat-form-field fxFlex>
+      <label for="name">Name</label>
+      <input matInput placeholder="Name" [(ngModel)]="editedItem.name" name="name">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <label for="description">Description</label>
+      <input matInput placeholder="Description" [(ngModel)]="editedItem.description" name="description">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <label for="code">Code</label>
+      <input matInput placeholder="Code" [(ngModel)]="editedItem.code" name="code">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <mat-select  [(ngModel)]="editedItem.ItemLocation.id"  name="ItemLocation">
+        <mat-option *ngFor="let location of locations" [value]="location.id">{{location.shortname}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <mat-form-field fxFlex>
+        <label for="date_inservice">Date In Service</label>
+        <input matInput [matDatepicker]="picker" placeholder="Date In Service" [(ngModel)]="editedItem.date_inservice" [value]="editedItem.date_inservice" name="date_inservice">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field fxFlex>
+        <label for="date_outservice">Out Of Service</label>
+        <input matInput [matDatepicker]="picker2" placeholder="Date Out of Service" [(ngModel)]="editedItem.date_outservice" [value]="editedItem.date_outservice" name="date_outservice">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-button [mat-dialog-close]="editedItem" cdkFocusInitial>Save</button>
+</div>
