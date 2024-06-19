@@ -95,6 +95,9 @@ def create_user_items(apps, schema_editor):
     UserItem.objects.create(user_id=1, item_id=3)
     UserItem.objects.create(user_id=1, item_id=4)
     UserItem.objects.create(user_id=2, item_id=5)
+    UserItem.objects.create(user_id=2, item_id=6)
+    UserItem.objects.create(user_id=3, item_id=7)
+    UserItem.objects.create(user_id=2, item_id=8)
 
 
 class Migration(migrations.Migration):
@@ -104,7 +107,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        
         migrations.RunPython(create_roles),
         migrations.RunPython(create_dienst),
         migrations.RunPython(create_locations),
